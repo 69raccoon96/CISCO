@@ -1,0 +1,13 @@
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.exe
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.deps.json
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.runtimeconfig.json
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.runtimeconfig.dev.json
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.dll
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\bin\Debug\netcoreapp3.1-windows\Cisco.pdb
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.csprojAssemblyReference.cache
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.AssemblyInfoInputs.cache
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.AssemblyInfo.cs
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.csproj.CoreCompileInputs.cache
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.dll
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.pdb
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.genruntimeconfig.cache

@@ -1,0 +1,5 @@
+#Which range of link-local addresses can be assigned to an IPv6-enabled interface?
++FEC0::/10
+-FDEE::/7
+-FE80::/10
+-FF00::/8
