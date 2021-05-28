@@ -11,7 +11,7 @@ namespace Cisco
         {
             var gb = new GroupBox();
             gb.Location = new Point(0, 0);
-            gb.Size = new Size(500, 400);
+            gb.Size = new Size(1000, 400);
             var mixedQuestions = new List<string>();
             mixedQuestions.AddRange(questionClass.GoodAnswers);
             mixedQuestions.AddRange(questionClass.BadAnswers);
