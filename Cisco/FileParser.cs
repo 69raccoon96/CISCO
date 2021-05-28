@@ -13,6 +13,7 @@ namespace Cisco
             QuestionClass currentQuestion = null;
             List<string> good = new List<string>();
             List<string> bad = new List<string>();
+            var currentQ = "";
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine();
@@ -25,10 +26,15 @@ namespace Cisco
                 }
                 else
                 {
-                    currentQuestion = new QuestionClass(new string( line.Skip(1).ToArray()), good, bad, type);
-                    result.Add(currentQuestion);
-                    good.Clear();
-                    bad.Clear();
+                    
+                    if (good.Count != 0 && bad.Count != 0)
+                    {
+                        currentQuestion = new QuestionClass(currentQ, good, bad, type);
+                        result.Add(currentQuestion);
+                        good = new List<string>();
+                        bad = new List<string>();
+                    }
+                    currentQ = new string(line.Skip(1).ToArray());
                 }
             }
 

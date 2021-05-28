@@ -392,14 +392,6 @@
 +audio conference, financial transactions, web page
 -financial transactions, audio conference, web page
 -audio conference, web page, financial transactions
-#133. Refer to the exhibit. If Host1 were to transfer a file to the server, what layers of the TCP/IP model would be used?
--only application and Internet layers
--only Internet and network access layers
--only application, Internet, and network access layers
-+application, transport, Internet, and network access layers
--only application, transport, network, data link, and physical layers
--application, session, transport, network, data link, and physical layers
-#134. Match the characteristic to the forwarding method. (Not all options are used.)
 #136. What service is provided by Internet Messenger?
 +An application that allows real-time chatting among remote users.
 -Allows remote access to network devices and servers.
