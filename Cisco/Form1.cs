@@ -19,10 +19,21 @@ namespace Cisco
         private Random rnd = new Random(DateTime.Now.Millisecond);
         public Form1()
         {
+            string multi, single;
             InitializeComponent();
-            
-            List<QuestionClass> Solid = FileParser.ParseQuestions(QuestionType.Single,"singleQuestions.txt");
-            List<QuestionClass> Multi = FileParser.ParseQuestions(QuestionType.Multi,"multiQuestions.txt");
+            if (MessageBox.Show("Если хотите использовать русский язык, нажмите Yes", "Выбор языка",
+                MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                single = "singleQuestions_ru.txt";
+                multi = "multiQuestions_ru.txt";
+            }
+            else
+            {
+                single = "singleQuestions_en.txt";
+                multi = "multiQuestions_en.txt";
+            }
+            List<QuestionClass> Solid = FileParser.ParseQuestions(QuestionType.Single,single);
+            List<QuestionClass> Multi = FileParser.ParseQuestions(QuestionType.Multi,multi);
             All = Solid;
             All.AddRange(Multi);
             CreateQuestion();

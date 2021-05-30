@@ -85,7 +85,7 @@
 +delivery options
 -end-device installation
 #39. What are two characteristics of IP? (Choose two.)
-+does not require a dedicated end-to-end connection 
++does not require a dedicated end-to-end connection
 +operates independently of the network media
 -retransmits packets if errors occur
 -re-assembles out of order packets into the correct order at the receiver end
@@ -153,12 +153,13 @@
 +intrusion prevention systems
 -strong passwords
 -antivirus software
-#78. Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)
+#78.1 Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)
 +places information in the Ethernet frame that identifies which network layer protocol is being encapsulated by the frame
 -adds Ethernet control information to network protocol data
 -responsible for internal structure of Ethernet frame
 -enables IPv4 and IPv6 to utilize the same physical medium
 +implements trailer with frame check sequence for error detection
+#78.2 Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)
 +integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper
 -handles communication between upper layer networking software and Ethernet NIC hardware
 +implements CSMA/CD over legacy shared half-duplex media
