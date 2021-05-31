@@ -3,6 +3,8 @@
     public enum QuestionType
     {
         Single,
-        Multi
+        Multi,
+        PictureSingle,
+        PictureMulti
     }
 }

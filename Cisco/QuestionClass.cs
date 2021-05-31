@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Cisco
 {
@@ -8,6 +9,7 @@ namespace Cisco
         public List<string> GoodAnswers;
         public List<string> BadAnswers;
         public QuestionType QuestionType;
+        public Bitmap Image { get; set; }
 
         public QuestionClass(string question, List<string> goodAnswers, List<string> badAnswers, QuestionType questionType)
         {

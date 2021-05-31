@@ -23,6 +23,17 @@ namespace Cisco
             var hs = new HashSet<int>();
             const int x = 10;
             var y = label.Location.Y + label.Size.Height + 50;
+            if (questionClass.QuestionType == QuestionType.PictureMulti ||
+                questionClass.QuestionType == QuestionType.PictureSingle)
+            {
+                var pb = new PictureBox();
+                pb.Image = questionClass.Image;
+                pb.Location = new Point(x,y);
+                pb.Size = new Size(500,200);
+                pb.SizeMode = PictureBoxSizeMode.StretchImage;
+                y = pb.Location.Y + pb.Size.Height + 50;
+                gb.Controls.Add(pb);
+            }
             for (var i = 0; i < mixedQuestions.Count; i++)
             {
                 var index = rnd.Next(0, mixedQuestions.Count);
@@ -34,28 +45,30 @@ namespace Cisco
 
                 var size = 0;
                 var answer = SplitToLines(mixedQuestions[index],150);
-                if (questionClass.QuestionType == QuestionType.Single)
+                if (questionClass.QuestionType == QuestionType.Single || questionClass.QuestionType == QuestionType.PictureSingle)
                 {
-                    var checkbox = new RadioButton()
+                    var radioButton1 = new RadioButton()
                         {Text = answer, Location = new Point(x, y), AutoSize = true};
-                    size += checkbox.Size.Height;
-                    gb.Controls.Add(checkbox);
+                    radioButton1.AccessibleDescription = mixedQuestions[index];
+                    size += radioButton1.Size.Height;
+                    gb.Controls.Add(radioButton1);
                     hs.Add(index);
                 }
                 else
                 {
-                    var checkbox = new CheckBox
+                    var checkBox1 = new CheckBox
                         {Text = answer, Location = new Point(x, y), AutoSize = true};
-                    size += checkbox.Size.Height;
-                    gb.Controls.Add(checkbox);
+                    checkBox1.AccessibleDescription = mixedQuestions[index];
+                    size += checkBox1.Size.Height;
+                    gb.Controls.Add(checkBox1);
                     hs.Add(index);
-                    
                 }
 
                 y += size + 10;
             }
 
             gb.Controls.Add(label);
+            gb.AutoSize = true;
             return gb;
         }
         public static string SplitToLines(string str, int n)

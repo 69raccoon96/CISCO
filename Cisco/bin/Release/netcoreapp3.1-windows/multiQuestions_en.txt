@@ -231,3 +231,9 @@
 +Generate the SSH keys.
 +Enable inbound vty SSH sessions.
 -Enable inbound vty Telnet sessions.
+#141. Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication?
++integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper
+-enables IPv4 and IPv6 to utilize the same physical medium
+-handles communication between upper layer networking software and Ethernet NIC hardware
+-adds Ethernet control information to network protocol data
++implements CSMA/CD over legacy shared half-duplex media

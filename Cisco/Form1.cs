@@ -17,31 +17,42 @@ namespace Cisco
         private QuestionClass currentQuestion;
         private HashSet<int> PassedQuestions = new HashSet<int>();
         private Random rnd = new Random(DateTime.Now.Millisecond);
+        private int correct = 0;
         public Form1()
         {
-            string multi, single;
+            string multi, single,pictureSingle,pictureMulti;
             InitializeComponent();
             if (MessageBox.Show("Если хотите использовать русский язык, нажмите Yes", "Выбор языка",
                 MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 single = "singleQuestions_ru.txt";
                 multi = "multiQuestions_ru.txt";
+                pictureSingle = "singlePictureQuestions_ru.txt";
+                pictureMulti = "multiPictureQuestions_ru.txt";
             }
             else
             {
                 single = "singleQuestions_en.txt";
                 multi = "multiQuestions_en.txt";
+                pictureSingle = "singlePictureQuestions_en.txt";
+                pictureMulti = "multiPictureQuestions_en.txt";
             }
-            List<QuestionClass> Solid = FileParser.ParseQuestions(QuestionType.Single,single);
-            List<QuestionClass> Multi = FileParser.ParseQuestions(QuestionType.Multi,multi);
+            var Solid = FileParser.ParseQuestions(QuestionType.Single,single);
+            var Multi = FileParser.ParseQuestions(QuestionType.Multi,multi);
+            var solidPicture =
+                FileParser.ParseQuestionsWithImage(QuestionType.PictureSingle, pictureSingle);
+            var multiPicture =
+                FileParser.ParseQuestionsWithImage(QuestionType.PictureMulti, pictureMulti);
             All = Solid;
             All.AddRange(Multi);
+            All.AddRange(solidPicture);
+            All.AddRange(multiPicture);
             CreateQuestion();
         }
 
         void ButtonClick()
         {
-            if (currentQuestion.QuestionType == QuestionType.Multi)
+            if (currentQuestion.QuestionType == QuestionType.Multi || currentQuestion.QuestionType == QuestionType.PictureMulti)
             {
                 var checkboxes = currentGb.Controls.OfType<CheckBox>().Where(x => x.Checked).Select(x => x.Text);
                 var count = 0;
@@ -66,7 +77,13 @@ namespace Cisco
             }
             else
             {
-                var checkboxes = currentGb.Controls.OfType<RadioButton>().Where(x => x.Checked).Select(x => x.Text);
+                var checkboxes = currentGb.Controls.OfType<RadioButton>().Where(x => x.Checked).Select(x => x.AccessibleDescription);
+                if (checkboxes.Count() == 0)
+                {
+                    MessageBox.Show($"Правильные варианты:\n{string.Join('\n', currentQuestion.GoodAnswers)}");
+                    CreateQuestion();
+                    return;
+                }
                 foreach (var elem in checkboxes)
                 {
                     if (!currentQuestion.GoodAnswers.Contains(elem))
@@ -78,6 +95,7 @@ namespace Cisco
                 }
             }
 
+            correct++;
             MessageBox.Show($"Правильный ответ!");
             CreateQuestion();
         }
@@ -88,19 +106,23 @@ namespace Cisco
             var index = GetNextIndex();
             if (index == -1)
             {
-                MessageBox.Show("Вы прошли все вопросы!");
+                var percent = Math.Round(correct * 1.0 / All.Count, 2) * 100;
+                MessageBox.Show($"Количество правильных ответов: {correct}\n" +
+                                $"Процент правильных ответов: {percent}%","Вы прошли все вопросы!");
                 PassedQuestions.Clear();
                 index = GetNextIndex();
+                correct = 0;
             }
             var gb = QuestionFormatter.GetGroupBox(All[index]);
             currentGb = gb;
             currentQuestion = All[index];
             Controls.Add(gb);
+            var p = new Point(gb.Location.X, gb.Location.Y + gb.Size.Height + 10);
             var button = new Button
             {
                 AutoSize = true,
                 Text = "Ok",
-                Location = new Point(450,450)
+                Location = p
             };
             button.Click += (s, e) =>
             {

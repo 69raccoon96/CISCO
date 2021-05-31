@@ -287,13 +287,6 @@
 -software that identifies fast-spreading threats
 +a tunneling protocol that provides remote users with secure access into the network of an organization
 -a network device that filters access and traffic coming into a network
-#106. A network administrator wants to have the same network mask for all networks at a particular small site. The site has the following networks and number of devices:
--255.255.255.192
--255.255.255.252
--255.255.255.240
--255.255.255.248
--255.255.255.0
-+255.255.255.224
 #107. What is an advantage to using a protocol that is defined by an open standard?
 -A company can monopolize the market.
 -The protocol can only be run on equipment from a specific vendor.
@@ -336,13 +329,6 @@
 -when the host responds with an ICMP Echo Reply message
 +when the value in the TTL field reaches zero
 -when the values of both the Echo Request and Echo Reply messages reach zero
-#120. Refer to the exhibit. The switches are in their default configuration. Host A needs to communicate with host D, but host A does not have the MAC address for its default gateway. Which network hosts will receive the ARP request sent by host A?
--only host D
--only router R1
--only hosts A, B, and C
--only hosts A, B, C, and D
--only hosts B and C
-+only hosts B, C, and router R1
 #122. Which wireless technology has low-power and data rate requirements making it popular in home automation applications?
 +ZigBee
 -LoRaWAN
@@ -403,12 +389,6 @@
 -It will send the frame with a broadcast MAC address.
 -It will send a request to the DNS server for the destination MAC address.
 +It will send an ARP request for the MAC address of the default gateway.
-#141. Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication?
-+integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper
--enables IPv4 and IPv6 to utilize the same physical medium
--handles communication between upper layer networking software and Ethernet NIC hardware
--adds Ethernet control information to network protocol data
-+implements CSMA/CD over legacy shared half-duplex media
 #142. A client packet is received by a server. The packet has a destination port number of 53. What service is the client requesting?
 +DNS
 -NetBIOS (NetBT)
