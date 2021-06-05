@@ -5,6 +5,7 @@
         Single,
         Multi,
         PictureSingle,
-        PictureMulti
+        PictureMulti,
+        Input
     }
 }

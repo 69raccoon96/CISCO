@@ -7,7 +7,7 @@ namespace Cisco
 {
     public static class FileParser
     {
-        public static List<QuestionClass> ParseQuestions(QuestionType type,string fileName)
+        public static List<QuestionClass> ParseQuestions(QuestionType type, string fileName)
         {
             var result = new List<QuestionClass>();
             var sr = new StreamReader(fileName);
@@ -20,14 +20,13 @@ namespace Cisco
                 var line = sr.ReadLine();
                 if (line[0] != '#')
                 {
-                    if(line[0] == '+')
-                        good.Add(new string( line.Skip(1).ToArray()));
+                    if (line[0] == '+')
+                        good.Add(new string(line.Skip(1).ToArray()));
                     else
-                        bad.Add(new string( line.Skip(1).ToArray()));
+                        bad.Add(new string(line.Skip(1).ToArray()));
                 }
                 else
                 {
-                    
                     if (good.Count != 0 && bad.Count != 0)
                     {
                         currentQuestion = new QuestionClass(currentQ, good, bad, type);
@@ -35,15 +34,18 @@ namespace Cisco
                         good = new List<string>();
                         bad = new List<string>();
                     }
+
                     currentQ = new string(line.Skip(1).ToArray());
                 }
             }
+
             currentQuestion = new QuestionClass(currentQ, good, bad, type);
             result.Add(currentQuestion);
 
             return result;
         }
-        public static List<QuestionClass> ParseQuestionsWithImage(QuestionType type,string fileName)
+
+        public static List<QuestionClass> ParseQuestionsWithImage(QuestionType type, string fileName)
         {
             var result = new List<QuestionClass>();
             var sr = new StreamReader(fileName);
@@ -56,14 +58,13 @@ namespace Cisco
                 var line = sr.ReadLine();
                 if (line[0] != '#')
                 {
-                    if(line[0] == '+')
-                        good.Add(new string( line.Skip(1).ToArray()));
+                    if (line[0] == '+')
+                        good.Add(new string(line.Skip(1).ToArray()));
                     else
-                        bad.Add(new string( line.Skip(1).ToArray()));
+                        bad.Add(new string(line.Skip(1).ToArray()));
                 }
                 else
                 {
-                    
                     if (good.Count != 0 && bad.Count != 0)
                     {
                         currentQuestion = new QuestionClass(currentQ, good, bad, type);
@@ -73,13 +74,30 @@ namespace Cisco
                         var imageName = new string(currentQ.Split('.')[0].Skip(1).ToArray());
                         currentQuestion.Image = new Bitmap($"images\\{imageName}.png");
                     }
+
                     currentQ = new string(line);
                 }
             }
+
             currentQuestion = new QuestionClass(currentQ, good, bad, type);
             result.Add(currentQuestion);
             var imageName1 = new string(currentQ.Split('.')[0].Skip(1).ToArray());
             currentQuestion.Image = new Bitmap($"images\\{imageName1}.png");
+
+            return result;
+        }
+
+        public static List<QuestionClass> ParseInputQuestions(QuestionType type, string fileName)
+        {
+            var result = new List<QuestionClass>();
+            var sr = new StreamReader(fileName);
+            while (!sr.EndOfStream)
+            {
+                var question = sr.ReadLine();
+                var answer = new string(sr.ReadLine().Skip(1).ToArray());
+                var current = new QuestionClass(question, new List<string> {answer}, new List<string>(), type);
+                result.Add(current);
+            }
 
             return result;
         }

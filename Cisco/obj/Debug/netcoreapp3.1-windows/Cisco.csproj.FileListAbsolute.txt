@@ -11,3 +11,5 @@ C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.c
 C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.dll
 C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.pdb
 C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.genruntimeconfig.cache
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.Form1.resources
+C:\Users\ivan0\RiderProjects\Cisco\Cisco\obj\Debug\netcoreapp3.1-windows\Cisco.csproj.GenerateResource.cache

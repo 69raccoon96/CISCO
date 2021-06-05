@@ -54,7 +54,7 @@ namespace Cisco
                     gb.Controls.Add(radioButton1);
                     hs.Add(index);
                 }
-                else
+                if(questionClass.QuestionType == QuestionType.PictureMulti || questionClass.QuestionType == QuestionType.Multi)
                 {
                     var checkBox1 = new CheckBox
                         {Text = answer, Location = new Point(x, y), AutoSize = true};
@@ -62,6 +62,29 @@ namespace Cisco
                     size += checkBox1.Size.Height;
                     gb.Controls.Add(checkBox1);
                     hs.Add(index);
+                }
+
+                if (questionClass.QuestionType == QuestionType.Input)
+                {
+                    var input = new TextBox
+                    {
+                        Location = new Point(x, y), AutoSize = true
+                    };
+                    size += input.Size.Height;
+                    gb.Controls.Add(input);
+                    y += 30;
+                    var hint = new Button
+                    {
+                        Location = new Point(x,y),
+                        Text = "Подсказка",
+                        AccessibleDescription = questionClass.GoodAnswers[0],
+                        AutoSize = true
+                    };
+                    hint.Click += (s, e) =>
+                    {
+                        ButtonClick(s);
+                    };
+                    gb.Controls.Add(hint);
                 }
 
                 y += size + 10;
@@ -87,6 +110,13 @@ namespace Cisco
                 --sb.Length;
 
             return sb.ToString();
+        }
+
+        static void ButtonClick(object sender)
+        {
+            var button = sender as Button;
+            button.Text = button.AccessibleDescription;
+            //button.Enabled = false;
         }
     }
 }

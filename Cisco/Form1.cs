@@ -20,36 +20,29 @@ namespace Cisco
         private int correct = 0;
         public Form1()
         {
-            string multi, single,pictureSingle,pictureMulti;
+            string multi, single,pictureSingle,pictureMulti, input;
             InitializeComponent();
-            if (MessageBox.Show("Если хотите использовать русский язык, нажмите Yes", "Выбор языка",
-                MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                single = "singleQuestions_ru.txt";
-                multi = "multiQuestions_ru.txt";
-                pictureSingle = "singlePictureQuestions_ru.txt";
-                pictureMulti = "multiPictureQuestions_ru.txt";
-            }
-            else
-            {
-                single = "singleQuestions_en.txt";
-                multi = "multiQuestions_en.txt";
-                pictureSingle = "singlePictureQuestions_en.txt";
-                pictureMulti = "multiPictureQuestions_en.txt";
-            }
+            single = "singleQuestions_ru.txt";
+            multi = "multiQuestions_ru.txt";
+            pictureSingle = "singlePictureQuestions_ru.txt";
+            pictureMulti = "multiPictureQuestions_ru.txt";
+            input = "inputQuestions_ru.txt";
             var Solid = FileParser.ParseQuestions(QuestionType.Single,single);
             var Multi = FileParser.ParseQuestions(QuestionType.Multi,multi);
+            var Input = FileParser.ParseInputQuestions(QuestionType.Input, input);
             var solidPicture =
                 FileParser.ParseQuestionsWithImage(QuestionType.PictureSingle, pictureSingle);
             var multiPicture =
                 FileParser.ParseQuestionsWithImage(QuestionType.PictureMulti, pictureMulti);
             All = Solid;
             All.AddRange(Multi);
-            All.AddRange(solidPicture);
-            All.AddRange(multiPicture);
+            All.AddRange(Input);
+            /*All.AddRange(solidPicture);
+            All.AddRange(multiPicture);*/
             CreateQuestion();
+            
         }
-
+        //TODO в нижний регистр
         void ButtonClick()
         {
             if (currentQuestion.QuestionType == QuestionType.Multi || currentQuestion.QuestionType == QuestionType.PictureMulti)
@@ -75,7 +68,7 @@ namespace Cisco
                     return;
                 }
             }
-            else
+            if (currentQuestion.QuestionType == QuestionType.Single || currentQuestion.QuestionType == QuestionType.PictureSingle)
             {
                 var checkboxes = currentGb.Controls.OfType<RadioButton>().Where(x => x.Checked).Select(x => x.AccessibleDescription);
                 if (checkboxes.Count() == 0)
@@ -92,6 +85,18 @@ namespace Cisco
                         CreateQuestion();
                         return;
                     }
+                }
+            }
+
+            if (currentQuestion.QuestionType == QuestionType.Input)
+            {
+                var input = currentGb.Controls.OfType<TextBox>().First().Text;
+                var answer = currentQuestion.GoodAnswers.First();
+                if (input.ToLower() != answer.ToLower())
+                {
+                    MessageBox.Show($"Правильные варианты:\n{string.Join('\n', currentQuestion.GoodAnswers)}");
+                    CreateQuestion();
+                    return;
                 }
             }
 
@@ -129,6 +134,17 @@ namespace Cisco
                 ButtonClick();
             };
             Controls.Add(button);
+            var buttonLock = button.Location;
+            var newLoc = Point.Add(buttonLock, new Size(20, 0));
+            newLoc.X += button.Size.Width;
+            var label = new Label
+            {
+                Location = newLoc,
+                Text = $@"Пройдено вопросов {PassedQuestions.Count} из {All.Count}",
+                AutoSize = true
+                
+            };
+            Controls.Add(label);
         }
 
         int GetNextIndex()
