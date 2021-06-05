@@ -37,8 +37,8 @@ namespace Cisco
             All = Solid;
             All.AddRange(Multi);
             All.AddRange(Input);
-            /*All.AddRange(solidPicture);
-            All.AddRange(multiPicture);*/
+            All.AddRange(solidPicture);
+            All.AddRange(multiPicture);
             CreateQuestion();
             
         }

@@ -27,7 +27,7 @@ namespace Cisco
                 }
                 else
                 {
-                    if (good.Count != 0 && bad.Count != 0)
+                    if (good.Count != 0 || bad.Count != 0)
                     {
                         currentQuestion = new QuestionClass(currentQ, good, bad, type);
                         result.Add(currentQuestion);
@@ -79,10 +79,17 @@ namespace Cisco
                 }
             }
 
-            currentQuestion = new QuestionClass(currentQ, good, bad, type);
-            result.Add(currentQuestion);
-            var imageName1 = new string(currentQ.Split('.')[0].Skip(1).ToArray());
-            currentQuestion.Image = new Bitmap($"images\\{imageName1}.png");
+            try
+            {
+                currentQuestion = new QuestionClass(currentQ, good, bad, type);
+                result.Add(currentQuestion);
+                var imageName1 = new string(currentQ.Split('.')[0].Skip(1).ToArray());
+                currentQuestion.Image = new Bitmap($"images\\{imageName1}.png");
+            }
+            catch
+            {
+                return new List<QuestionClass>();
+            }
 
             return result;
         }
@@ -95,7 +102,8 @@ namespace Cisco
             {
                 var question = sr.ReadLine();
                 var answer = new string(sr.ReadLine().Skip(1).ToArray());
-                var current = new QuestionClass(question, new List<string> {answer}, new List<string>(), type);
+                var current = new QuestionClass(new string(question.Skip(1).ToArray()), new List<string> {answer},
+                    new List<string>(), type);
                 result.Add(current);
             }
 
