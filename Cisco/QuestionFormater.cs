@@ -8,7 +8,7 @@ namespace Cisco
 {
     public static class QuestionFormatter
     {
-        public static GroupBox GetGroupBox(QuestionClass questionClass)
+        public static GroupBox GetGroupBox(QuestionClass questionClass, Action answerCallback)
         {
             var gb = new GroupBox();
             gb.Location = new Point(0, 0);
@@ -69,6 +69,11 @@ namespace Cisco
                     var input = new TextBox
                     {
                         Location = new Point(x, y), AutoSize = true
+                    };
+                    input.KeyDown += (s, e) =>
+                    {
+                        if (e.KeyCode == Keys.Enter)
+                            answerCallback();
                     };
                     size += input.Size.Height;
                     gb.Controls.Add(input);
