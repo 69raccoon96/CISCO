@@ -118,7 +118,7 @@ namespace Cisco
                 index = GetNextIndex();
                 correct = 0;
             }
-            var gb = QuestionFormatter.GetGroupBox(All[index]);
+            var gb = QuestionFormatter.GetGroupBox(All[index], ButtonClick);
             currentGb = gb;
             currentQuestion = All[index];
             Controls.Add(gb);
