@@ -1,0 +1,15 @@
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.exe
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.deps.json
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.runtimeconfig.json
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.runtimeconfig.dev.json
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.dll
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\bin\Release\netcoreapp3.1-windows\ExamHelper.pdb
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.csprojAssemblyReference.cache
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.AssemblyInfoInputs.cache
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.AssemblyInfo.cs
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.csproj.CoreCompileInputs.cache
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.dll
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.pdb
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.genruntimeconfig.cache
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.Form1.resources
+C:\Users\ivan0\RiderProjects\ExamHelper\ExamHelper\obj\Release\netcoreapp3.1-windows\ExamHelper.csproj.GenerateResource.cache
