@@ -8,6 +8,5 @@ namespace ExamHelper
         public string Question { get; set; }
         public GroupBox CreateQuestion();
         public bool CheckAnswer();
-        
     }
 }
