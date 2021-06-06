@@ -9,7 +9,7 @@ namespace ExamHelper
 {
     public class SolidQuestion : IQuestion
     {
-        private string Question;
+        public string Question { get; set; }
         private List<string> CorrectAnswers;
         private List<string> InCorrectAnswers;
         private GroupBox GroupBox;
@@ -52,9 +52,8 @@ namespace ExamHelper
                 size += radioButton1.Size.Height;
                 gb.Controls.Add(radioButton1);
                 hs.Add(index);
-                y += size + 10;
+                y += size + 30;
             }
-
             gb.Controls.Add(label);
             gb.AutoSize = true;
             GroupBox = gb;
@@ -64,25 +63,44 @@ namespace ExamHelper
         public bool CheckAnswer()
         {
             var checkboxes = GroupBox.Controls.OfType<RadioButton>().Where(x => x.Checked).Select(x => x.AccessibleDescription);
-            if (checkboxes.Count() == 0)
+            if (!checkboxes.Any())
             {
-                MessageBox.Show($"Правильные варианты:\n{string.Join('\n', CorrectAnswers)}");
-                CreateQuestion();
+                ShowCorrect();
+                MessageBox.Show("Неправильно");
                 return false;
             }
             foreach (var elem in checkboxes)
             {
                 if (!CorrectAnswers.Contains(elem))
                 {
-                    MessageBox.Show($"Правильные варианты:\n{string.Join('\n', CorrectAnswers)}");
-                    CreateQuestion();
+                    ShowCorrect();
+                    MessageBox.Show("Неправильно");
                     return false;
                 }
             }
-            MessageBox.Show($"Правильный ответ!");
             return true;
         }
 
+        public void ShowCorrect()
+        {
+            var checkboxes =  GroupBox.Controls.OfType<RadioButton>();
+            foreach (var checkbox in checkboxes)
+            {
+                if (InCorrectAnswers.Contains(checkbox.AccessibleDescription))
+                {
+                    if (checkbox.Checked)
+                    {
+                        checkbox.BackColor = Color.FromArgb(233,153,152);
+                    }
+                }
+
+                if (CorrectAnswers.Contains(checkbox.AccessibleDescription))
+                {
+                    checkbox.BackColor = Color.FromArgb(182, 215, 168);
+                }
+            }
+        }
+        
         public static List<IQuestion> ParseQuestions(string fileName)
         {
             var result = new List<IQuestion>();

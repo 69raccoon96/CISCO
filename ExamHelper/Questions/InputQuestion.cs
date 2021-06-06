@@ -9,7 +9,7 @@ namespace ExamHelper
 {
     public class InputQuestion : IQuestion
     {
-        private string Question;
+        public string Question { get; set; }
         private string Answer;
         private GroupBox GroupBox;
         public static Action answerCallback;
@@ -55,7 +55,7 @@ namespace ExamHelper
             GroupBox = gb;
             return gb;
         }
-
+        //TODO правильный ответ
         public bool CheckAnswer()
         {
             var input = GroupBox.Controls.OfType<TextBox>().First().Text;
