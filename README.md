@@ -1,1 +1,2 @@
-# Exam-Helper
+# ExamHelper
+
