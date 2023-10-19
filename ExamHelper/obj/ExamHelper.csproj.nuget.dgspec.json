@@ -1,35 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ivan0\\RiderProjects\\ExamHelper\\ExamHelper\\ExamHelper.csproj": {}
+    "C:\\Users\\ivan0\\Desktop\\Exam-Helper\\ExamHelper\\ExamHelper.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ivan0\\RiderProjects\\ExamHelper\\ExamHelper\\ExamHelper.csproj": {
+    "C:\\Users\\ivan0\\Desktop\\Exam-Helper\\ExamHelper\\ExamHelper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ivan0\\RiderProjects\\ExamHelper\\ExamHelper\\ExamHelper.csproj",
+        "projectUniqueName": "C:\\Users\\ivan0\\Desktop\\Exam-Helper\\ExamHelper\\ExamHelper.csproj",
         "projectName": "ExamHelper",
-        "projectPath": "C:\\Users\\ivan0\\RiderProjects\\ExamHelper\\ExamHelper\\ExamHelper.csproj",
+        "projectPath": "C:\\Users\\ivan0\\Desktop\\Exam-Helper\\ExamHelper\\ExamHelper.csproj",
         "packagesPath": "C:\\Users\\ivan0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ivan0\\RiderProjects\\ExamHelper\\ExamHelper\\obj\\",
+        "outputPath": "C:\\Users\\ivan0\\Desktop\\Exam-Helper\\ExamHelper\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ivan0\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\ivan0\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1-windows"
+          "net6.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1-windows",
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
             "projectReferences": {}
           }
         },
@@ -40,15 +35,16 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1-windows",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "imports": [
             "net461",
             "net462",
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -60,7 +56,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
         }
       }
     }

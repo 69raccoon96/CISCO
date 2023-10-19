@@ -2,13 +2,13 @@
 
 namespace ExamHelper
 {
-    public class Utilities
+    public static class Utilities
     {
         public static string SplitToLines(string str, int n)
         {
             var sb = new StringBuilder(str.Length + (str.Length + 9) / 10);
 
-            for (int q=0; q<str.Length; )
+            for (var q = 0; q < str.Length;)
             {
                 sb.Append(str[q]);
 

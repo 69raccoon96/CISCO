@@ -3,102 +3,106 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ExamHelper;
+using ExamHelper.Questions;
 
 namespace ExamHelper
 {
     public partial class Form1 : Form
     {
-        private List<IQuestion> All;
-        private IQuestion currentQuestion;
-        private HashSet<int> PassedQuestions = new HashSet<int>();
-        private Random rnd = new Random(DateTime.Now.Millisecond);
-        private int correct = 0;
+        private readonly List<IQuestion> _all;
+        private IQuestion _currentQuestion;
+        private readonly HashSet<int> _passedQuestions = new();
+        private readonly Random _rnd = new(DateTime.Now.Millisecond);
+        private int _correct;
+        private const string Single = "QuestionsData/singleQuestions_ru.txt";
+        private const string Multi = "QuestionsData/multiQuestions_ru.txt";
+        private const string PictureSingle = "QuestionsData/singlePictureQuestions_ru.txt";
+        private const string PictureMulti = "QuestionsData/multiPictureQuestions_ru.txt";
+        private const string Input = "QuestionsData/inputQuestions_ru.txt";
+
         public Form1()
         {
-            string multi, single,pictureSingle,pictureMulti, input, order;
             InitializeComponent();
-            single = "singleQuestions_ru.txt";
-            multi = "multiQuestions_ru.txt";
-            pictureSingle = "singlePictureQuestions_ru.txt";
-            pictureMulti = "multiPictureQuestions_ru.txt";
-            input = "inputQuestions_ru.txt";
-            order = "orderQuestions_ru.txt";
-            var Solid = SolidQuestion.ParseQuestions(single);
-            var Multi = MultiQuestion.ParseQuestions(multi);
-            var Input = InputQuestion.ParseQuestions(input);
-            var solidPicture = SolidPictureQuestions.ParseQuestions(pictureSingle);
-            var multiPicture = MultiPictureQuestions.ParseQuestions(pictureMulti);
-            var Order = OrderQuestions.ParseQuestions(order);
-            All = Solid;
-            All.AddRange(Multi);
-            All.AddRange(Input);
-            All.AddRange(solidPicture);
-            All.AddRange(multiPicture);
-            All.AddRange(Order);
-            InputQuestion.answerCallback = ButtonClick;
-            OrderQuestions.answerCallback = ButtonClick;
-            CreateQuestion();
-            
-        }
-        void ButtonClick()
-        {
-            if(currentQuestion.CheckAnswer())
-                correct++;
+            var files = new List<string>
+            {
+                Single, 
+                Multi, 
+                Input, 
+                PictureSingle, 
+                PictureMulti
+            };
+            var parsers = new List<Func<string, List<IQuestion>>>
+            {
+                SolidQuestion.ParseQuestions,
+                MultiQuestion.ParseQuestions,
+                InputQuestion.ParseQuestions,
+                SolidPictureQuestions.ParseQuestions,
+                MultiPictureQuestions.ParseQuestions,
+            };
+
+            _all = files.SelectMany((x, i) => parsers[i](x)).ToList();
+
+
+            InputQuestion.AnswerCallback = ButtonClick;
             CreateQuestion();
         }
 
-        void CreateQuestion()
+        private void ButtonClick()
+        {
+            if (_currentQuestion.CheckAnswer())
+                _correct++;
+            CreateQuestion();
+        }
+
+        private void CreateQuestion()
         {
             Controls.Clear();
             var index = GetNextIndex();
             if (index == -1)
             {
-                var percent = Math.Round(correct * 1.0 / All.Count, 2) * 100;
-                MessageBox.Show($"Количество правильных ответов: {correct}\n" +
-                                $"Процент правильных ответов: {percent}%","Вы прошли все вопросы!");
-                PassedQuestions.Clear();
+                var percent = Math.Round(_correct * 1.0 / _all.Count, 2) * 100;
+                MessageBox.Show($"Количество правильных ответов: {_correct}\n" +
+                                $"Процент правильных ответов: {percent}%", "Вы прошли все вопросы!");
+                _passedQuestions.Clear();
                 index = GetNextIndex();
-                correct = 0;
+                _correct = 0;
             }
-            currentQuestion = All[index];
-            var gb = currentQuestion.CreateQuestion();
+
+            _currentQuestion = _all[index];
+            var gb = _currentQuestion.CreateQuestion();
             Controls.Add(gb);
-            var p = new Point(gb.Location.X, gb.Location.Y + gb.Size.Height + 10);
+            var p = gb.Location with { Y = gb.Location.Y + gb.Size.Height + 10 };
             var button = new Button
             {
                 AutoSize = true,
                 Text = "Ok",
                 Location = p
             };
-            button.Click += (s, e) =>
-            {
-                ButtonClick();
-            };
+            button.Click += (_, _) => { ButtonClick(); };
             Controls.Add(button);
             var location2 = Point.Add(button.Location, new Size(20, 0));
             location2.X += button.Size.Width;
-            var num2 = Math.Round(correct * 1.0 / (PassedQuestions.Count - 1.0), 2) * 100.0;
+            var num2 = Math.Round(_correct * 1.0 / (_passedQuestions.Count - 1.0), 2) * 100.0;
             var value = new Label
             {
                 Location = location2,
-                Text = string.Format("Пройдено вопросов {0} из {1}, правильно:{2}%", PassedQuestions.Count - 1, All.Count - 1, num2),
+                Text = $"Пройдено вопросов {_passedQuestions.Count - 1} из {_all.Count - 1}, правильно:{num2}%",
                 AutoSize = true
             };
             Controls.Add(value);
         }
 
-        int GetNextIndex()
+        private int GetNextIndex()
         {
-            if (PassedQuestions.Count == All.Count)
+            if (_passedQuestions.Count == _all.Count)
                 return -1;
-            var index = rnd.Next(0, All.Count);
-            while (PassedQuestions.Contains(index))
+            var index = _rnd.Next(0, _all.Count);
+            while (_passedQuestions.Contains(index))
             {
-                index = rnd.Next(0, All.Count);
+                index = _rnd.Next(0, _all.Count);
             }
 
-            PassedQuestions.Add(index);
+            _passedQuestions.Add(index);
             return index;
         }
     }

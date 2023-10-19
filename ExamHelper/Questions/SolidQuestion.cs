@@ -5,32 +5,32 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ExamHelper
+namespace ExamHelper.Questions
 {
     public class SolidQuestion : IQuestion
     {
         public string Question { get; set; }
-        private List<string> CorrectAnswers;
-        private List<string> InCorrectAnswers;
-        private GroupBox GroupBox;
+        private readonly List<string> _correctAnswers;
+        private readonly List<string> _inCorrectAnswers;
+        private GroupBox _groupBox;
 
-        public SolidQuestion(string question, List<string> correctAnswers, List<string> inCorrectAnswers)
+        private SolidQuestion(string question, List<string> correctAnswers, List<string> inCorrectAnswers)
         {
             Question = question;
-            CorrectAnswers = correctAnswers;
-            InCorrectAnswers = inCorrectAnswers;
+            _correctAnswers = correctAnswers;
+            _inCorrectAnswers = inCorrectAnswers;
         }
-        
+
         public GroupBox CreateQuestion()
         {
-           var gb = new GroupBox();
+            var gb = new GroupBox();
             gb.Location = new Point(0, 0);
             gb.Size = new Size(1000, 400);
             var mixedQuestions = new List<string>();
-            mixedQuestions.AddRange(CorrectAnswers);
-            mixedQuestions.AddRange(InCorrectAnswers);
+            mixedQuestions.AddRange(_correctAnswers);
+            mixedQuestions.AddRange(_inCorrectAnswers);
             var text = Utilities.SplitToLines(Question, 150);
-            var label = new Label {Text = text, Location = new Point(10, 10)};
+            var label = new Label { Text = text, Location = new Point(10, 10) };
             label.AutoSize = true;
             var rnd = new Random(DateTime.Now.Millisecond);
             var hs = new HashSet<int>();
@@ -44,63 +44,69 @@ namespace ExamHelper
                     i--;
                     continue;
                 }
+
                 var size = 0;
-                var answer = Utilities.SplitToLines(mixedQuestions[index],150);
-                var radioButton1 = new RadioButton()
-                    {Text = answer, Location = new Point(x, y), AutoSize = true};
+                var answer = Utilities.SplitToLines(mixedQuestions[index], 150);
+                var radioButton1 = new RadioButton
+                {
+                    Text = answer, 
+                    Location = new Point(x, y), 
+                    AutoSize = true
+                };
                 radioButton1.AccessibleDescription = mixedQuestions[index];
                 size += radioButton1.Size.Height;
                 gb.Controls.Add(radioButton1);
                 hs.Add(index);
                 y += size + 30;
             }
+
             gb.Controls.Add(label);
             gb.AutoSize = true;
-            GroupBox = gb;
+            _groupBox = gb;
             return gb;
         }
 
         public bool CheckAnswer()
         {
-            var checkboxes = GroupBox.Controls.OfType<RadioButton>().Where(x => x.Checked).Select(x => x.AccessibleDescription);
+            var checkboxes = _groupBox.Controls
+                .OfType<RadioButton>()
+                .Where(x => x.Checked).Select(x => x.AccessibleDescription)
+                .ToList();
             if (!checkboxes.Any())
             {
                 ShowCorrect();
                 MessageBox.Show("Неправильно");
                 return false;
             }
-            foreach (var elem in checkboxes)
-            {
-                if (!CorrectAnswers.Contains(elem))
-                {
-                    ShowCorrect();
-                    MessageBox.Show("Неправильно");
-                    return false;
-                }
-            }
-            return true;
+
+            if (checkboxes.All(elem => _correctAnswers.Contains(elem)))
+                return true;
+            
+            ShowCorrect();
+            MessageBox.Show("Неправильно");
+            return false;
         }
 
-        public void ShowCorrect()
+        private void ShowCorrect()
         {
-            var checkboxes =  GroupBox.Controls.OfType<RadioButton>();
+            var checkboxes = _groupBox.Controls.OfType<RadioButton>();
             foreach (var checkbox in checkboxes)
             {
-                if (InCorrectAnswers.Contains(checkbox.AccessibleDescription))
+                if (_inCorrectAnswers.Contains(checkbox.AccessibleDescription))
                 {
                     if (checkbox.Checked)
                     {
-                        checkbox.BackColor = Color.FromArgb(233,153,152);
+                        checkbox.BackColor = Color.FromArgb(233, 153, 152);
                     }
                 }
 
-                if (CorrectAnswers.Contains(checkbox.AccessibleDescription))
+                if (_correctAnswers.Contains(checkbox.AccessibleDescription))
                 {
                     checkbox.BackColor = Color.FromArgb(182, 215, 168);
                 }
             }
         }
-        
+
         public static List<IQuestion> ParseQuestions(string fileName)
         {
             var result = new List<IQuestion>();
@@ -112,7 +118,9 @@ namespace ExamHelper
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine();
-                if (line[0] != '#')
+                if (line == "")
+                    break;
+                if (line![0] != '#')
                 {
                     if (line[0] == '+')
                         good.Add(new string(line.Skip(1).ToArray()));

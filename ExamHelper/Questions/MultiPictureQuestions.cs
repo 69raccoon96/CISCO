@@ -5,40 +5,42 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ExamHelper
+namespace ExamHelper.Questions
 {
     public class MultiPictureQuestions : IQuestion
     {
         public string Question { get; set; }
-        private List<string> CorrectAnswers;
-        private List<string> InCorrectAnswers;
-        private GroupBox GroupBox;
-        private Bitmap Image;
-        public MultiPictureQuestions(string question, List<string> correctAnswers, List<string> inCorrectAnswers)
+        private readonly List<string> _correctAnswers;
+        private readonly List<string> _inCorrectAnswers;
+        private GroupBox _groupBox;
+        private Bitmap _image;
+
+        private MultiPictureQuestions(string question, List<string> correctAnswers, List<string> inCorrectAnswers)
         {
             Question = question;
-            CorrectAnswers = correctAnswers;
-            InCorrectAnswers = inCorrectAnswers;
+            _correctAnswers = correctAnswers;
+            _inCorrectAnswers = inCorrectAnswers;
         }
+
         public GroupBox CreateQuestion()
         {
             var gb = new GroupBox();
             gb.Location = new Point(0, 0);
             gb.Size = new Size(1000, 400);
             var mixedQuestions = new List<string>();
-            mixedQuestions.AddRange(CorrectAnswers);
-            mixedQuestions.AddRange(InCorrectAnswers);
+            mixedQuestions.AddRange(_correctAnswers);
+            mixedQuestions.AddRange(_inCorrectAnswers);
             var text = Utilities.SplitToLines(Question, 150);
-            var label = new Label {Text = text, Location = new Point(10, 10)};
+            var label = new Label { Text = text, Location = new Point(10, 10) };
             label.AutoSize = true;
             var rnd = new Random(DateTime.Now.Millisecond);
             var hs = new HashSet<int>();
             const int x = 10;
             var y = label.Location.Y + label.Size.Height + 50;
             var pb = new PictureBox();
-            pb.Image = Image;
-            pb.Location = new Point(x,y);
-            pb.Size = new Size(500,200);
+            pb.Image = _image;
+            pb.Location = new Point(x, y);
+            pb.Size = new Size(500, 200);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
             y = pb.Location.Y + pb.Size.Height + 50;
             gb.Controls.Add(pb);
@@ -52,9 +54,9 @@ namespace ExamHelper
                 }
 
                 var size = 0;
-                var answer = Utilities.SplitToLines(mixedQuestions[index],150);
+                var answer = Utilities.SplitToLines(mixedQuestions[index], 150);
                 var checkBox1 = new CheckBox
-                    {Text = answer, Location = new Point(x, y), AutoSize = true};
+                    { Text = answer, Location = new Point(x, y), AutoSize = true };
                 checkBox1.AccessibleDescription = mixedQuestions[index];
                 size += checkBox1.Size.Height;
                 gb.Controls.Add(checkBox1);
@@ -64,17 +66,22 @@ namespace ExamHelper
 
             gb.Controls.Add(label);
             gb.AutoSize = true;
-            GroupBox = gb;
+            _groupBox = gb;
             return gb;
         }
 
         public bool CheckAnswer()
         {
-            var checkboxes = GroupBox.Controls.OfType<CheckBox>().Where(x => x.Checked).Select(x => x.AccessibleDescription);
+            var checkboxes = _groupBox.Controls
+                .OfType<CheckBox>()
+                .Where(x => x.Checked)
+                .Select(x => x.AccessibleDescription)
+                .ToList();
+
             var count = 0;
             foreach (var elem in checkboxes)
             {
-                if (!CorrectAnswers.Contains(elem))
+                if (!_correctAnswers.Contains(elem))
                 {
                     ShowCorrect();
                     MessageBox.Show("Неправильно");
@@ -84,28 +91,28 @@ namespace ExamHelper
                 count++;
             }
 
-            if (CorrectAnswers.Count != count)
-            {
-                ShowCorrect();
-                MessageBox.Show("Неправильно");
-                return false;
-            }
-            return true;
+            if (_correctAnswers.Count == count) 
+                return true;
+            ShowCorrect();
+            MessageBox.Show("Неправильно");
+            return false;
+
         }
-        public void ShowCorrect()
+
+        private void ShowCorrect()
         {
-            var checkboxes =  GroupBox.Controls.OfType<CheckBox>();
+            var checkboxes = _groupBox.Controls.OfType<CheckBox>();
             foreach (var checkbox in checkboxes)
             {
-                if (InCorrectAnswers.Contains(checkbox.AccessibleDescription))
+                if (_inCorrectAnswers.Contains(checkbox.AccessibleDescription))
                 {
                     if (checkbox.Checked)
                     {
-                        checkbox.BackColor = Color.FromArgb(233,153,152);
+                        checkbox.BackColor = Color.FromArgb(233, 153, 152);
                     }
                 }
 
-                if (CorrectAnswers.Contains(checkbox.AccessibleDescription))
+                if (_correctAnswers.Contains(checkbox.AccessibleDescription))
                 {
                     checkbox.BackColor = Color.FromArgb(182, 215, 168);
                 }
@@ -117,13 +124,15 @@ namespace ExamHelper
             var result = new List<IQuestion>();
             var sr = new StreamReader(fileName);
             MultiPictureQuestions currentQuestion = null;
-            List<string> good = new List<string>();
-            List<string> bad = new List<string>();
+            var good = new List<string>();
+            var bad = new List<string>();
             var currentQ = "";
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine();
-                if (line[0] != '#')
+                if (line == "")
+                    break;
+                if (line![0] != '#')
                 {
                     if (line[0] == '+')
                         good.Add(new string(line.Skip(1).ToArray()));
@@ -139,7 +148,7 @@ namespace ExamHelper
                         good = new List<string>();
                         bad = new List<string>();
                         var imageName = new string(currentQ.Split('.')[0].Skip(1).ToArray());
-                        currentQuestion.Image = new Bitmap($"images\\{imageName}.png");
+                        currentQuestion._image = new Bitmap($"QuestionsData\\images\\{imageName}.png");
                     }
 
                     currentQ = new string(line);
@@ -151,7 +160,7 @@ namespace ExamHelper
                 currentQuestion = new MultiPictureQuestions(currentQ, good, bad);
                 result.Add(currentQuestion);
                 var imageName1 = new string(currentQ.Split('.')[0].Skip(1).ToArray());
-                currentQuestion.Image = new Bitmap($"images\\{imageName1}.png");
+                currentQuestion._image = new Bitmap($"images\\{imageName1}.png");
             }
             catch
             {
